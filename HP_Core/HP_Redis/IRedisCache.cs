@@ -8,7 +8,6 @@ namespace HP_Redis
 {
     public interface IRedisCache
     {
-
         Task<RedisValue> GetValue(string key);
         IList<string> GetValues(IList<string> keys);
         RedisValue GetValueSync(string key);
