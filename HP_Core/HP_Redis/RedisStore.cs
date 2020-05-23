@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
-
+using System.Linq;
 namespace HP_Redis
 {
     public class RedisStore : IRedisCache
@@ -20,7 +20,6 @@ namespace HP_Redis
                 .SetBasePath(System.IO.Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json");
 
-
             IConfiguration config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
@@ -32,7 +31,6 @@ namespace HP_Redis
             configurationOptions.SyncTimeout = 5000;
             LazyConnection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(configurationOptions));
         }
-
         public async Task<RedisValue> GetValue(string key)
         {
             var rdb = _conn.GetDatabase();
@@ -40,15 +38,15 @@ namespace HP_Redis
         }
         public IList<string> GetValues(IList<string> keys)
         {
-
-            var check = RedisStore.RedisCache;
-
-            throw new NotImplementedException();
+            var rdb = _conn.GetDatabase();
+            RedisValue[] results = rdb.StringGet(keys.Select(x => (RedisKey)x).ToArray());
+            return results.Select(value => (string)value).Where(x => !string.IsNullOrEmpty(x)).ToList();
         }
 
         public RedisValue GetValueSync(string key)
         {
-            throw new NotImplementedException();
+            var rdb = _conn.GetDatabase();
+            return rdb.StringGet(key);
         }
 
         public void setValue(string key, string value)
@@ -56,14 +54,40 @@ namespace HP_Redis
             var rdb = _conn.GetDatabase();
             rdb.StringSetAsync(key, JsonConvert.SerializeObject(value)).Wait();
         }
-        Task<RedisValue> IRedisCache.GetValue(string key)
-        {
-            throw new NotImplementedException();
-        }
 
-        RedisValue IRedisCache.GetValueSync(string key)
+
+        // Make a test case for these two methods. 
+        public T GetFormat<T>(IDatabase cache, string key)
         {
-            throw new NotImplementedException();
+            var value = cache.StringGet(key);
+            if (!value.IsNull)
+            {
+                var deserializedStr = JsonConvert.SerializeObject(value
+                    , Formatting.Indented
+                    , new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                        TypeNameHandling = TypeNameHandling.All
+                    });
+                return JsonConvert.DeserializeObject<T>(deserializedStr);
+            }
+            else
+            {
+                return default(T);
+            }
+        }
+        public T Get<T>(IDatabase cache, string key)
+        {
+            var value = cache.StringGet(key);
+            if (!value.IsNull)
+            {
+                return JsonConvert.DeserializeObject<T>(value);
+            }
+            else
+            {
+                return default(T);
+            }
         }
     }
 

@@ -31,38 +31,7 @@ namespace HP_Redis
                 });
             cache.StringSet(key, serializedStr, experation);
         }
-        public static T GetFormat<T>(IDatabase cache, string key)
-        {
-            var value = cache.StringGet(key);
-            if (!value.IsNull)
-            {
-                var deserializedStr = JsonConvert.SerializeObject(value
-                    , Formatting.Indented
-                    , new JsonSerializerSettings
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-                        PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                        TypeNameHandling = TypeNameHandling.All
-                    });
-                return JsonConvert.DeserializeObject<T>(deserializedStr);
-            }
-            else
-            {
-                return default(T);
-            }
-        }
-        public static T Get<T>(IDatabase cache, string key)
-        {
-            var value = cache.StringGet(key);
-            if (!value.IsNull)
-            {
-                return JsonConvert.DeserializeObject<T>(value);
-            }
-            else
-            {
-                return default(T);
-            }
-        }
+
 
 
 
