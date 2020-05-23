@@ -20,10 +20,7 @@ namespace HP_Testing
         public void RedisStringSetManual()
         {
             var redis = RedisStore.RedisCache;
-            if (redis.StringSet("testKey", "testValueaaa"))
-            {
-                var val = redis.StringGet("testKey");
-            }
+            //redis.setFormat
         }
 
         [Test]
