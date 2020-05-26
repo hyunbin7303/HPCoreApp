@@ -1,4 +1,7 @@
 ﻿using Autofac;
+using HP_Core;
+using HP_Core.Models;
+using HP_Core.Notification;
 using HP_Infrastructure.Module;
 using System;
 
@@ -11,24 +14,18 @@ namespace HP_Infrastructure
     {
         void Print(Test oTest);
     }
-    public interface IAppInfra
+
+
+    public class UserService
     {
-        void Print(AppInfra outInfra);
-    }
-    public class AppInfra : IAppInfra
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Usage { get; set; }
-        public void Print(AppInfra outInfra)
+        public UserService()
         {
-            Console.WriteLine($"Id Value : {outInfra.Id}, Name : {outInfra.Name}, Usage : {outInfra.Usage}");
         }
     }
 
 
-
-
+    //Dynamic Load .NET Assembly
+    //https://www.codeproject.com/Articles/666492/Dynamic-Load-NET-Assembly
     class Program
     {
         static void Main(string[] args)
@@ -39,9 +36,12 @@ namespace HP_Infrastructure
                 Name = "MyTask",
                 Usage = "Management service for my task."
             };
-            var container = BuildContainer();
+             var container = BuildContainer();
             var myappRepo = container.Resolve<IAppInfra>();
             myappRepo.Print(appInfra);
+
+            var test = container.Resolve<ITest>();
+            var notificationService = container.Resolve<INotificationService>();
         }
 
         static IContainer BuildContainer()
@@ -49,7 +49,21 @@ namespace HP_Infrastructure
             var builder = new ContainerBuilder();
             builder.RegisterModule<AppInfraModule>();
             builder.RegisterModule<TestModule>();
+            builder.RegisterModule<ProgramModule>();
+            builder.RegisterModule<NotificationModule>();
             return builder.Build();
         }
     }
 }
+
+
+
+
+
+
+// Things to remember
+
+    // Register ONce, Resolve Many? Best Practice
+    // Don't register components during units of works if you can't avoid it.
+
+    // Use nested lifetime scopes and appropriate instance scopes to keep per- uunit of-work instance separate. 

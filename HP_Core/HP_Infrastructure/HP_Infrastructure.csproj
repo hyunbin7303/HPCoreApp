@@ -6,14 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Config\" />
-    <Folder Include="Autofac\" />
     <Folder Include="Database\MSSQL\" />
     <Folder Include="Database\MongoDB\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.2.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HP_Core.Notification\HP_Core.Notification.csproj" />
+    <ProjectReference Include="..\HP_Core\HP_Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP_MessageQueue", "HP_Messa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{72500E26-1FFA-46C3-9900-97D4565EFFA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP_Testing", "HP_Testing\HP_Testing.csproj", "{8A454DBF-D9A9-4F14-90BD-3CD4EE162AE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP_Testing", "HP_Testing\HP_Testing.csproj", "{8A454DBF-D9A9-4F14-90BD-3CD4EE162AE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP_Cryptography", "HP_Cryptography\HP_Cryptography.csproj", "{E92618C4-24C2-44D3-8940-90598D11177E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP_Cryptography", "HP_Cryptography\HP_Cryptography.csproj", "{E92618C4-24C2-44D3-8940-90598D11177E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP_Core.Notification", "HP_Core.Notification\HP_Core.Notification.csproj", "{7522B6C5-534E-403F-BD96-1750C97FA13B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{E92618C4-24C2-44D3-8940-90598D11177E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E92618C4-24C2-44D3-8940-90598D11177E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E92618C4-24C2-44D3-8940-90598D11177E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7522B6C5-534E-403F-BD96-1750C97FA13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7522B6C5-534E-403F-BD96-1750C97FA13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7522B6C5-534E-403F-BD96-1750C97FA13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7522B6C5-534E-403F-BD96-1750C97FA13B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

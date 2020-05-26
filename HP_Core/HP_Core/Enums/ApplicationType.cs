@@ -7,6 +7,5 @@
         AzureServiceBus,
         AzureMessageQueue,
         Other,
-
     }
 }
