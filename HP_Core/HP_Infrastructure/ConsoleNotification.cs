@@ -15,17 +15,14 @@ namespace HP_Infrastructure
         {
             throw new System.NotImplementedException();
         }
-
         public void NotifyExtraChanged()
         {
             throw new System.NotImplementedException();
         }
-
         public void NotifyNameChanged(AppInfra appinfra)
         {
             System.Console.WriteLine($"Infra {appinfra.Id} ");
         }
-
         public void NotifyNameChanged(HP_Core.Notification.User user)
         {
             throw new System.NotImplementedException();

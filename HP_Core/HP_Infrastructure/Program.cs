@@ -5,27 +5,12 @@ using HP_Core.Notification;
 using HP_Infrastructure.Module;
 using System;
 
-
-// TODO : For now, I'm use this file for testing purpose.
-
 namespace HP_Infrastructure
 {
     public interface ITest
     {
         void Print(Test oTest);
     }
-
-
-    public class UserService
-    {
-        public UserService()
-        {
-        }
-    }
-
-
-    //Dynamic Load .NET Assembly
-    //https://www.codeproject.com/Articles/666492/Dynamic-Load-NET-Assembly
     class Program
     {
         static void Main(string[] args)

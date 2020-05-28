@@ -15,3 +15,12 @@ namespace HP_Infrastructure.Module
 
     }
 }
+
+
+
+// Flexibility to override
+// Module registers its IDrive dependency with the container as well.
+
+
+    // How to setting up Json/XML configuration
+    // 
