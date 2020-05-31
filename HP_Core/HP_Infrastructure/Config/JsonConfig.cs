@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Autofac;
+using Autofac.Configuration;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,8 +21,29 @@ namespace HP_Infrastructure.Config
         // Inside that is an array of the components you want to register.
         // 
 
+        // multiple configurations than C# code.
 
-    public class JsonConfig
+    public class JsonConfigManager
     {
+
+        public JsonConfigManager()
+        {
+
+
+
+            //var config = new ConfigurationBuilder();
+            //config.AddJsonFile("autofac.json");
+            //var module = new ConfigurationModule(config.Build());
+            //var builder = new ContainerBuilder();
+            //builder.RegisterModule(module);
+
+
+
+        }
+
+        public void SetupDefaultAssembly()
+        {
+
+        }
     }
 }

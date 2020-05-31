@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HP_Core.Notification\HP_Core.Notification.csproj" />
+    <ProjectReference Include="..\HP_Infrastructure\HP_Infrastructure.csproj" />
     <ProjectReference Include="..\HP_Redis\HP_Redis.csproj" />
   </ItemGroup>
 

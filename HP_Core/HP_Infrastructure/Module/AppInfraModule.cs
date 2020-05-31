@@ -20,9 +20,10 @@ namespace HP_Infrastructure.Module
             if (isAppInfraStart)
             {
                 // Builder register for Redis
+                builder.Register(r => new RedisManager()).As<IRedis>();
+
                 // Builder register for Azure Service
                 // Builder Register for other components.
-              
             
             }
             else

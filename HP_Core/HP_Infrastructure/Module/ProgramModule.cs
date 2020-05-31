@@ -1,7 +1,11 @@
 ﻿using Autofac;
+using Autofac.Configuration;
 using HP_Core.Enums;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Text;
 
 namespace HP_Infrastructure.Module
@@ -35,8 +39,26 @@ namespace HP_Infrastructure.Module
                 deploytype = DeployType.Development;
             }
         }
+
+        private readonly string configPath;
+
+        //public ProgramModule(string configPath)
+        //{
+        //    this.configPath = configPath;
+        //}
+
+
         protected override void Load(ContainerBuilder builder)
         {
+            //var config = new ConfigurationBuilder();
+            //config.SetBasePath(Directory.GetCurrentDirectory());
+            //config.AddJsonFile(configPath);
+            //var programModule = new ConfigurationModule(config.Build());
+
+            //builder.RegisterModule(programModule);
+            //builder.RegisterType<DataLimiter>
+
+
             if (deploytype == DeployType.Development)
             {
                 RegisterDevelopmentOnlyDependencies(builder);
