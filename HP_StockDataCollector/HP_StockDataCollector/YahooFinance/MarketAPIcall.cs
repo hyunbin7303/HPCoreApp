@@ -28,6 +28,9 @@ namespace HP_StockDataCollector.YahooFinance
             request.AddHeader("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
             request.AddHeader("x-rapidapi-key", "7c660e7db2msh6dba68fb0305bc6p1d982cjsn55312d329620");
             IRestResponse response = client.Execute(request);
+            JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
+            var result = check.SelectToken("marketSummaryResponse.result").ToString();
+            System.Console.WriteLine(result);
         }
         public static void GetQuotesAPI()
         {
