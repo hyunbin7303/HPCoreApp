@@ -9,7 +9,7 @@ namespace HP_StockDataCollector
         {
            // MarketAPIcall.GetSummary();
             //StockAPIcall.GetStatistic();
-            StockAPIcall.GetHolder("AMRN");
+            StockAPIcall.GetHolder("AMRN", "");
         }
 
 

@@ -4,12 +4,17 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HP_StockDataCollector.YahooFinance
 {
-    public static class StockAPIcall
+    public class StockAPIcall : BaseWebClient
     {
-        public static void GetStatistic(string company)
+
+        private static RestClient _client;
+        private static RestRequest _request;
+
+        public void GetStatistic(string company)
         {
             var client = new RestClient("https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-statistics?region=US&symbol=" + company);
             var request = new RestRequest(Method.GET);
@@ -20,20 +25,40 @@ namespace HP_StockDataCollector.YahooFinance
             var result = check.SelectToken("marketSummaryResponse.result").ToString();
             System.Console.WriteLine(result);
         }
-
-        // AMRN = Amarin Corporations.
-        // Biopharmaceutical company founded in 1993 ...for the treatment of cardiovascular disease.
-
-        public static void GetHolder(string company)
+        public void GetHolder(string company, string selectToken)
         {
-            RestClient client;
-            RestRequest request;
-            RequestHeaderSetup(company, out client, out request);
-            IRestResponse response = client.Execute(request);
+            BaseWebClient.RequestHeaderSetup("Stock", "get-holders", company,out _client, out _request);
+            IRestResponse response = _client.Execute(_request);
             JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
             var result = check.SelectToken("marketSummaryResponse.result").ToString();
             System.Console.WriteLine(result);
         }
+
+
+        // Get Dividend history for a stock
+
+
+        // Get historical data for a stock
+        public void GetHistoricalData()
+        {
+
+        }
+        public static async Task<IReadOnlyList<Candle>> GetHistoricalAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, Period period = Period.Daily, CancellationToken token = default)
+        {
+            await GetTicksAsync(symbol,startTime,endTime, period,ShowOption.History,RowExtension.ToCandle,token).ConfigureAwait(false);
+            // How the Get Ticks Async is working?
+
+        }
+
+        // Get Stock quotes.
+
+        /*
+         * A tick represents the standard upon which the price of a security may fluctuate.
+         * The tick provides a specific price increment, reflected in the local currency associated with the market in which the security trades,
+         * by which the overall price of the security can change.
+         */
+
+
 
 
     }
