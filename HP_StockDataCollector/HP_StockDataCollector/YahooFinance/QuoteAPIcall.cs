@@ -4,7 +4,11 @@ using System.Text;
 
 namespace HP_StockDataCollector.YahooFinance
 {
-    class QuoteAPIcall
+    class QuoteAPIcall : BaseWebClient
     {
+        public QuoteAPIcall()
+        {
+            _category = "quote";
+        }
     }
 }

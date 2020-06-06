@@ -3,63 +3,89 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HP_StockDataCollector.YahooFinance
 {
+    // Stock API call method.
     public class StockAPIcall : BaseWebClient
     {
-
-        private static RestClient _client;
-        private static RestRequest _request;
-
+        // A stock symbol is a unique series of leters assigned to a security for trading purposes.
+        /*
+        * A tick represents the standard upon which the price of a security may fluctuate.
+        * The tick provides a specific price increment, reflected in the local currency associated with the market in which the security trades,
+        * by which the overall price of the security can change.
+        */
+        public StockAPIcall()
+        {
+            _category = "stock";
+        }
         public void GetStatistic(string company)
         {
-            var client = new RestClient("https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-statistics?region=US&symbol=" + company);
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
-            request.AddHeader("x-rapidapi-key", "7c660e7db2msh6dba68fb0305bc6p1d982cjsn55312d329620");
-            IRestResponse response = client.Execute(request);
-            JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
-            var result = check.SelectToken("marketSummaryResponse.result").ToString();
-            System.Console.WriteLine(result);
-        }
-        public void GetHolder(string company, string selectToken)
-        {
-            BaseWebClient.RequestHeaderSetup("Stock", "get-holders", company,out _client, out _request);
             IRestResponse response = _client.Execute(_request);
             JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
             var result = check.SelectToken("marketSummaryResponse.result").ToString();
             System.Console.WriteLine(result);
         }
-
-
-        // Get Dividend history for a stock
-
-
-        // Get historical data for a stock
-        public void GetHistoricalData()
+        public async Task<bool> GetHolderAsync(string company, string selectToken)
         {
-
+            _categoryOption = "get-holders";
+            var urldic = new Dictionary<string, string>();
+            urldic.Add("symbol", company);
+            RequestHeader(urldic);
+            await getRestResponseAsync(selectToken);
+            return true;
         }
-        public static async Task<IReadOnlyList<Candle>> GetHistoricalAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, Period period = Period.Daily, CancellationToken token = default)
+        public async Task<bool> GetBalanceSheetAsync(string company, string selectToken)
         {
-            await GetTicksAsync(symbol,startTime,endTime, period,ShowOption.History,RowExtension.ToCandle,token).ConfigureAwait(false);
-            // How the Get Ticks Async is working?
-
+            _categoryOption = "get-balance-sheet";
+            var urldic = new Dictionary<string, string>();
+            urldic.Add("symbol", company);
+            RequestHeader(urldic);
+            await getRestResponseAsync(selectToken);
+            return true;
         }
-
-        // Get Stock quotes.
-
-        /*
-         * A tick represents the standard upon which the price of a security may fluctuate.
-         * The tick provides a specific price increment, reflected in the local currency associated with the market in which the security trades,
-         * by which the overall price of the security can change.
-         */
-
-
-
+        public async Task<bool> GetSummaryAsync(string region, string company, string selectToken)
+        {
+            _categoryOption = "get-summary";
+            var urldic = new Dictionary<string, string>();
+            urldic.Add("region", region);
+            urldic.Add("symbol", company);
+            RequestHeader(urldic);
+            await getRestResponseAsync(selectToken);
+            return true;
+        }
+        public async Task<bool> GetHistoricalDataAsync(string symbol, string period1, string period2, string selectToken, DateTime? statTime = null, DateTime? endTime = null)
+        {
+            _categoryOption = "get-historical-data";
+            var urldic = new Dictionary<string, string>();
+            urldic.Add("period1", period1);
+            urldic.Add("period2", period2);
+            urldic.Add("symbol", symbol);
+            RequestHeader(urldic);
+            await getRestResponseAsync(selectToken);
+            return true;
+        }
+        //public static async Task<IReadOnlyList<Candle>> GetHistoricalAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, Period period = Period.Daily, CancellationToken token = default)
+        //{
+        //    await GetTicksAsync(symbol, startTime, endTime, period, ShowOption.History, RowExtension.ToCandle, token).ConfigureAwait(false);
+        //    // How the Get Ticks Async is working?
+        //}
+        private async Task<bool> getRestResponseAsync(string selectToken)
+        {
+            IRestResponse response = await _client.ExecuteAsync(_request);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                Console.WriteLine("Status code : Not found "); // Logging require, not console WriteLine.
+                return false;
+            }
+            JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
+            var result = check.SelectToken(selectToken).ToString();
+            Console.WriteLine(result);
+            return true;
+        }
 
     }
 }

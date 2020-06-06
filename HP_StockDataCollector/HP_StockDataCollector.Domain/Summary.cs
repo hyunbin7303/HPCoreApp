@@ -8,6 +8,9 @@ namespace HP_StockDataCollector.Domain
     {
         public double PreviousClose { get; set; }
         public double Open { get; set; }
-        public double MyProperty { get; set; }
+        public double Volume { get; set; }
+        public double DayRange { get; set; }
+        public double WeekRange52 { get; set; }
+        public double  AvgVolume { get; set; }
     }
 }
