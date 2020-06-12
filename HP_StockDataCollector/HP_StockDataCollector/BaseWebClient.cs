@@ -1,12 +1,15 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HP_StockDataCollector
 {
-    //https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?region=US&symbol=AMRN
     public abstract class BaseWebClient
     {
         private const string url = "apidojo-yahoo-finance-v1.p.rapidapi.com/";
@@ -26,6 +29,19 @@ namespace HP_StockDataCollector
             _request = new RestRequest(Method.GET);
             _request.AddHeader("x-rapidapi-host", url);
             _request.AddHeader("x-rapidapi-key", apiKey);
+        }
+        protected async Task<bool> getRestResponseAsync(string selectToken)
+        {
+            IRestResponse response = await _client.ExecuteAsync(_request);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                Console.WriteLine("Status code : Not found "); // Logging require, not console WriteLine.
+                return false;
+            }
+            JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
+            var result = check.SelectToken(selectToken).ToString();
+            Console.WriteLine(result);
+            return true;
         }
     }
 }

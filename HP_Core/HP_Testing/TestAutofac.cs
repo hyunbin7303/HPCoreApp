@@ -2,8 +2,10 @@ using Autofac;
 using HP_Core;
 using HP_Core.Notification;
 using HP_Infrastructure;
+using HP_Infrastructure.Module;
 using HP_Redis;
 using NUnit.Framework;
+using System.Runtime.CompilerServices;
 
 namespace HP_Testing
 {
@@ -32,20 +34,35 @@ namespace HP_Testing
             var myappRepo = container.Resolve<IAppInfra>();
             myappRepo.Print(appInfra);
         }
+        [Test]
+        public void Autofac_AppInfra_Testing()
+        {
 
+        }
         [Test]
         public void NotificationTest()
         {
             var container = AutofactBuildContainer.BuildContainer();
-            var myappRepo = container.Resolve<IAppInfra>();
             var notificationService = container.Resolve<INotificationService>();
+            System.Console.WriteLine("NOTIFICATION DELL CALLED");
+            notificationService.NotifyDLLChanged();
         }
+        [Test]
+        public void NotifyExtraChanged()
+        {
+            var container = AutofactBuildContainer.BuildContainer();
+            var notificationService = container.Resolve<INotificationService>();
+            notificationService.NotifyExtraChanged();
+        }
+
 
         [Test]
         public void Autofac_ModuleTest()
         {
             var container = AutofactBuildContainer.BuildContainer();
             var myappRepo = container.Resolve<ProgramModule>();
+            //var programService = container
+            
         }
 
     }

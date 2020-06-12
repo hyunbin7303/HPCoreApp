@@ -20,11 +20,7 @@ namespace HP_StockDataCollector.Dynamic
             handler?.Invoke(this, e);
         }
         // A delegate is a type that holds a reference to a method.
-    
     }
-
-
-
     public class DynamicCollectionCheck
     {
         public void Checking()
@@ -108,8 +104,6 @@ namespace HP_StockDataCollector.Dynamic
         }
     }
 }
-
-
 // https://visualstudiomagazine.com/articles/2019/04/01/making-it-up-as-you-go.aspx
 // https://visualstudiomagazine.com/articles/2019/04/01/working-with-dynamic-objects.aspx
 // https://www.oreilly.com/content/building-c-objects-dynamically/

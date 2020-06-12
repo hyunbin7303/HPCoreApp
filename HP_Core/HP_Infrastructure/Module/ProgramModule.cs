@@ -10,18 +10,11 @@ using System.Text;
 
 namespace HP_Infrastructure.Module
 {
-
-
     //Advantages of using modules
     // Decresed config complexity
-
     // good for dynamic Configuration
-
     //Advanced Extensions???
     // -- Attach to component resolution events and extend how parameters are resolved or perform other extensions. (e.g. log4net integration module).
-
-
-
     public class ProgramModule : Autofac.Module
     {
 
@@ -41,22 +34,15 @@ namespace HP_Infrastructure.Module
         }
 
         private readonly string configPath;
-
-        //public ProgramModule(string configPath)
-        //{
-        //    this.configPath = configPath;
-        //}
-
-
         protected override void Load(ContainerBuilder builder)
         {
-            //var config = new ConfigurationBuilder();
-            //config.SetBasePath(Directory.GetCurrentDirectory());
-            //config.AddJsonFile(configPath);
-            //var programModule = new ConfigurationModule(config.Build());
+            var buildconfig = new ConfigurationBuilder()
+    .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json");
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
 
-            //builder.RegisterModule(programModule);
-            //builder.RegisterType<DataLimiter>
 
 
             if (deploytype == DeployType.Development)

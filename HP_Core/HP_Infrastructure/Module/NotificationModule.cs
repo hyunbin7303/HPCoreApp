@@ -24,7 +24,6 @@ namespace HP_Infrastructure.Module
             {
                 builder.RegisterType(notiServiceType).As<INotificationService>();
             }
-            //base.Load(builder);
         }
     }
 }

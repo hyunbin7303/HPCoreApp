@@ -36,14 +36,11 @@ namespace HP_Infrastructure.Reflection
             // Get type of class Calculator from just loaded assembly?..
             Type calcType = testAssembly.GetType("Test.Calculator");
 
-
             // Create instance of class Calculator
             object calcInstance = Activator.CreateInstance(calcType);
 
-
             // set value of property : public dobule number
             PropertyInfo numPropertyInfo = calcType.GetProperty("Number");
-
         }
 
     }
