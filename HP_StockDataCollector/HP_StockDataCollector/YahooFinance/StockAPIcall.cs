@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HP_StockDataCollector.Domain;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
@@ -21,6 +22,8 @@ namespace HP_StockDataCollector.YahooFinance
         public StockAPIcall()
         {
             _category = "stock";
+            _endPointTitle = EndpointTitle.Stock;
+
         }
         public void GetStatistic(string company)
         {

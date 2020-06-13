@@ -1,4 +1,5 @@
 ﻿
+using HP_StockDataCollector.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -10,7 +11,10 @@ namespace HP_StockDataCollector.YahooFinance
 {
     public class MarketAPIcall : BaseWebClient
     {
-        public MarketAPIcall(){ _category = "market";}
+        public MarketAPIcall(){
+            _category = "market";
+            _endPointTitle = EndpointTitle.Market;
+        }
         public async Task<bool> GetSummaryAsync()
         {
             _categoryOption = "get-summary";
@@ -21,36 +25,53 @@ namespace HP_StockDataCollector.YahooFinance
             await getRestResponseAsync("");
             return true;
         }
-        // https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-quotes?region=US&lang=en&symbols=BAC%252CKC%253DF%252C002210.KS%252CIWM%252CAMECX
         public async Task<bool> GetQuotesAsync(string symbolValue, string selectToken)
         {
+            // Symobal value setup 
+            // input
+            //BAC,KC=F,002210.KS,IWM,AMECX
+            // : BAC%252CKC%253DF%252C002210.KS%252CIWM%252CAMECX
             _categoryOption = "get-quotes";
             var urldic = new Dictionary<string, string>();
             urldic.Add("region", "US");
             urldic.Add("lang", "en");
-            urldic.Add("symbols", "");
+            urldic.Add("symbols", symbolValue);
             RequestHeader(urldic);
-            await getRestResponseAsync(selectToken);
+            var checkStr = await getRestResponseAsync(selectToken);
+
+            // Deserialize string to QuoteData Object.
+            // Deserializing failed. Need proper logging handler.
+            QuoteData quote = new QuoteData();
+            quote = JsonConvert.DeserializeObject<QuoteData>(checkStr);
             return true;
         }
-        public static void GetMoverAPI()
+
+        //https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-movers?region=US&lang=en
+        public async Task<bool> GetMoverAPI(string? start, string? count)
         {
-            var client = new RestClient("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-movers?region=US&lang=en");
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
-            request.AddHeader("x-rapidapi-key", "7c660e7db2msh6dba68fb0305bc6p1d982cjsn55312d329620");
-            IRestResponse response = client.Execute(request);
-            JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
-            var result = check.SelectToken("marketSummaryResponse.result").ToString();
-            System.Console.WriteLine(result);
+            _categoryOption = "get-movers";
+            var urldic = new Dictionary<string, string>();
+            urldic.Add("region", "US");
+            urldic.Add("lang", "en");
+            //if(start.IsN)
+            urldic.Add("start", start);
+            urldic.Add("count", count);
+            RequestHeader(urldic);
+            //await getRestResponseAsync(selectToken);
+            return true;
         }
-        public static void GetChartAPI()
+        public async Task<string> GetChartAsync(string symbol, string interval, string range, string comparisons)
         {
-            var client = new RestClient("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-charts?comparisons=%255EGDAXI%252C%255EFCHI&region=US&lang=en&symbol=HYDR.ME&interval=5m&range=1d");
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
-            request.AddHeader("x-rapidapi-key", "7c660e7db2msh6dba68fb0305bc6p1d982cjsn55312d329620");
-            IRestResponse response = client.Execute(request);
+            _categoryOption = "get-charts";
+            var urldic = new Dictionary<string, string>();
+            urldic.Add("region", "US");
+            urldic.Add("lang", "en");
+            urldic.Add("symbol", symbol);
+            urldic.Add("interval", interval);
+            urldic.Add("range", range);
+            RequestHeader(urldic);
+            await getRestResponseAsync("");
+            return "";
         }
         public static void GetAutoCompleteAPI()
         {
@@ -65,3 +86,8 @@ namespace HP_StockDataCollector.YahooFinance
 
     }
 }
+
+
+// Worker - Set up to save data in sql server.
+// Need to create SQL server ...
+ 

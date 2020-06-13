@@ -11,6 +11,9 @@ namespace HP_StockDataCollector.Domain
         public double Low { get; set; }
         public double Close { get; set; }
         public long Volume { get; set; }
+        public string quoteType { get; set; }
+        public double Bid { get; set; }
+        public double Ask { get; set; }
         public DateTime Timestamp { get; set; } = new DateTime();
     }
 }
