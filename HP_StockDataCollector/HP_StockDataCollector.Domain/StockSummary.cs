@@ -4,8 +4,9 @@ using System.Text;
 
 namespace HP_StockDataCollector.Domain
 {
-    public class Summary
+    public class StockSummary
     {
+        public string Symbol { get; set; }
         public double PreviousClose { get; set; }
         public double Open { get; set; }
         public double Volume { get; set; }

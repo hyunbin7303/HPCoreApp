@@ -6,7 +6,6 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 namespace HP_StockDataCollector.YahooFinance
 {
     public class MarketAPIcall : BaseWebClient
@@ -25,12 +24,9 @@ namespace HP_StockDataCollector.YahooFinance
             await getRestResponseAsync("");
             return true;
         }
-        public async Task<bool> GetQuotesAsync(string symbolValue, string selectToken)
+        public async Task<List<QuoteData>> GetQuotesAsync(string symbolValue, string selectToken)
         {
-            // Symobal value setup 
-            // input
-            //BAC,KC=F,002210.KS,IWM,AMECX
-            // : BAC%252CKC%253DF%252C002210.KS%252CIWM%252CAMECX
+
             _categoryOption = "get-quotes";
             var urldic = new Dictionary<string, string>();
             urldic.Add("region", "US");
@@ -38,14 +34,9 @@ namespace HP_StockDataCollector.YahooFinance
             urldic.Add("symbols", symbolValue);
             RequestHeader(urldic);
             var checkStr = await getRestResponseAsync(selectToken);
-
-            // Deserialize string to QuoteData Object.
-            // Deserializing failed. Need proper logging handler.
-            QuoteData quote = new QuoteData();
-            quote = JsonConvert.DeserializeObject<QuoteData>(checkStr);
-            return true;
+            var quoteList = JsonConvert.DeserializeObject<List<QuoteData>>(checkStr);
+            return quoteList;
         }
-
         //https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-movers?region=US&lang=en
         public async Task<bool> GetMoverAPI(string? start, string? count)
         {
@@ -82,12 +73,9 @@ namespace HP_StockDataCollector.YahooFinance
             IRestResponse response = client.Execute(request);
         }
 
-
-
     }
 }
 
-
 // Worker - Set up to save data in sql server.
 // Need to create SQL server ...
- 
+//https://www.youtube.com/watch?v=c5ZDbDGySc0

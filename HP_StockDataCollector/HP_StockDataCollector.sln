@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP_StockDataCollector.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP_StockDataCollector.Dynamic", "HP_StockDataCollector.Dynamic\HP_StockDataCollector.Dynamic.csproj", "{DE501185-49E5-4CF9-95F7-07DC2E9EF325}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP_StockDataCollector.Test", "HP_StockDataCollector.Test\HP_StockDataCollector.Test.csproj", "{2FDF4C62-64B4-484F-8C1D-718CBE30BF3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP_StockDataCollector.Test", "HP_StockDataCollector.Test\HP_StockDataCollector.Test.csproj", "{2FDF4C62-64B4-484F-8C1D-718CBE30BF3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP_StockDataCollector.Multithread", "HP_StockDataCollector.Multithread\HP_StockDataCollector.Multithread.csproj", "{6527E28F-93A9-471B-B6E9-B70AD2921674}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{2FDF4C62-64B4-484F-8C1D-718CBE30BF3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FDF4C62-64B4-484F-8C1D-718CBE30BF3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FDF4C62-64B4-484F-8C1D-718CBE30BF3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6527E28F-93A9-471B-B6E9-B70AD2921674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6527E28F-93A9-471B-B6E9-B70AD2921674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6527E28F-93A9-471B-B6E9-B70AD2921674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6527E28F-93A9-471B-B6E9-B70AD2921674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
