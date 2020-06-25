@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HP_StockDataCollector.Domain\HP_StockDataCollector.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="HP_Infrastructure">
+      <HintPath>..\..\HP_Core\HP_Infrastructure\bin\Debug\netcoreapp3.1\HP_Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

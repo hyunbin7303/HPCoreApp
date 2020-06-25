@@ -10,11 +10,14 @@ namespace HP_StockDataCollector.Test
     [TestClass]
     public class YahooFiananceMarketAPITest
     {
+        #region NormalTest_Market
         [TestMethod]
-        public async Task GetSummaryTestAsync()
+        public async Task GetSummaryTesting()
         {
             MarketAPIcall market = new MarketAPIcall();
-            await market.GetSummaryAsync();
+            var getSummary = await market.GetSummaryAsync();
+            Assert.IsNotNull(getSummary);
+            Assert.Equals(getSummary[0].ShortName, "S&P 500");
         }
         [TestMethod]
         public async Task GetQuotesTestNormalTesting()
@@ -29,29 +32,48 @@ namespace HP_StockDataCollector.Test
             Assert.IsNotNull(quotelist2);
             Assert.IsNotNull(quotelist3);
             Assert.IsNotNull(quotelist4);
+        }
 
+        [TestMethod]
+        public async Task GetMoversAsyncTesting()
+        {
+            MarketAPIcall market = new MarketAPIcall();
+            var moverTest = await market.GetMoverAPIAsync();
+            Assert.IsNotNull(moverTest);
         }
         [TestMethod]
+        public async Task GetAutoCompleteTesting()
+        {
+            MarketAPIcall market = new MarketAPIcall();
+            var moverTest = await market.GetAutoCompleteAsync("nbe");
+            Assert.IsNotNull(moverTest);
+        }
+        #endregion
+
+        #region ExceptionTest_Market
         public async Task ExceptionTest()
         {
             var market = new MarketAPIcall();
             var quotelist = await market.GetQuotesAsync("BAC,KC=F", "quoteResponse.result");
             Assert.ThrowsException<System.ArgumentException>(() => quotelist.Count);
         }
+        #endregion
 
-        [TestMethod]
-        [Timeout(3000)]
-        public void TimeoutTesting()
-        {
+        #region NormalTest_Stock
+        //[TestMethod]
+        //public async Task Get
 
-        }
+
+        #endregion
+
+
+
 
         public async Task GetChartTestAsync()
         {
             MarketAPIcall market = new MarketAPIcall();
             //What is this symbol value? 
             //await market.GetChartAsync();
-
         }
     }
 }

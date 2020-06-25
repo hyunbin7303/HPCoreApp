@@ -14,19 +14,19 @@ namespace HP_StockDataCollector.YahooFinance
             _category = "market";
             _endPointTitle = EndpointTitle.Market;
         }
-        public async Task<bool> GetSummaryAsync()
+        public async Task<IList<MarketSummary>> GetSummaryAsync()
         {
             _categoryOption = "get-summary";
             var urldic = new Dictionary<string, string>();
             urldic.Add("region", "US");
             urldic.Add("lang", "en");
             RequestHeader(urldic);
-            await getRestResponseAsync("");
-            return true;
+            var checkStr = await getRestResponseAsync("marketSummaryResponse.result");
+            var summary = JsonConvert.DeserializeObject<List<MarketSummary>>(checkStr);
+            return summary;
         }
-        public async Task<List<QuoteData>> GetQuotesAsync(string symbolValue, string selectToken)
+        public async Task<IList<QuoteData>> GetQuotesAsync(string symbolValue, string selectToken)
         {
-
             _categoryOption = "get-quotes";
             var urldic = new Dictionary<string, string>();
             urldic.Add("region", "US");
@@ -37,20 +37,36 @@ namespace HP_StockDataCollector.YahooFinance
             var quoteList = JsonConvert.DeserializeObject<List<QuoteData>>(checkStr);
             return quoteList;
         }
-        //https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-movers?region=US&lang=en
-        public async Task<bool> GetMoverAPI(string? start, string? count)
+        public async Task<IList<Mover>> GetMoverAPIAsync(string? start = null, string? count = null)
         {
             _categoryOption = "get-movers";
             var urldic = new Dictionary<string, string>();
             urldic.Add("region", "US");
             urldic.Add("lang", "en");
-            //if(start.IsN)
-            urldic.Add("start", start);
-            urldic.Add("count", count);
+            if(start != null || count != null)
+            {
+                urldic.Add("start", start);
+                urldic.Add("count", count);
+            }
             RequestHeader(urldic);
-            //await getRestResponseAsync(selectToken);
-            return true;
+            var checkStr = await getRestResponseAsync("result");
+            var moveList = JsonConvert.DeserializeObject<List<Mover>>(checkStr);
+            return moveList;
         }
+        public async Task<string> GetAutoCompleteAsync(string query)
+        {
+            _categoryOption = "auto-complete";
+            var urldic = new Dictionary<string, string>();
+            urldic.Add("region", "US");
+            urldic.Add("lang", "en");
+            urldic.Add("query", query);
+            RequestHeader(urldic);
+            var checkStr = await getRestResponseAsync("ResultSet");
+            return checkStr;
+
+        }
+
+
         public async Task<string> GetChartAsync(string symbol, string interval, string range, string comparisons)
         {
             _categoryOption = "get-charts";
@@ -64,15 +80,7 @@ namespace HP_StockDataCollector.YahooFinance
             await getRestResponseAsync("");
             return "";
         }
-        public static void GetAutoCompleteAPI()
-        {
-            var client = new RestClient("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/auto-complete?lang=en&region=US&query=nbe");
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
-            request.AddHeader("x-rapidapi-key", "7c660e7db2msh6dba68fb0305bc6p1d982cjsn55312d329620");
-            IRestResponse response = client.Execute(request);
-        }
-
+ 
     }
 }
 

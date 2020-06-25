@@ -23,19 +23,12 @@ namespace HP_StockDataCollector.Multithread
                 });
             }
             Console.ReadLine();
-
         }
-
-
     }
-
-
     // Semaphore testing
     // C# semaphore allows only a limited number of threads to enter into a critical section.
     // Mainly used in scenarios where we have limited number of resources and we have to limit the number of threads
     // that can use it. 
-
-
     class Printer
     {
         public void Print(int documentToPrint)

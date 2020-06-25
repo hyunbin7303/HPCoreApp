@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Dynamic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace HP_StockDataCollector.Dynamic
 {
+    // https://visualstudiomagazine.com/articles/2019/04/01/making-it-up-as-you-go.aspx
+    // https://visualstudiomagazine.com/articles/2019/04/01/working-with-dynamic-objects.aspx
+    // https://www.oreilly.com/content/building-c-objects-dynamically/
     // Part of DLR(Dynamic Language Runtime).
     // Enables you to add and delete members of its instances at run time and also to set and get values of these members.
-
     class Conter
     {
         // HOw this event is used?
@@ -38,15 +44,11 @@ namespace HP_StockDataCollector.Dynamic
                 }
                 return true;
             });
-
-
             if(!expando.IsValid())
             {
                 // not valid, so get out.
             }
-
         }
-
         public static void AddProperty(ExpandoObject expando, string propertyName, object propertyValue)
         {
             // ExpandoObject supports IDictionary so we can extend it like this
@@ -56,7 +58,6 @@ namespace HP_StockDataCollector.Dynamic
             else
                 expandoDict.Add(propertyName, propertyValue);
         }
-
         public ExpandoObject CreateDynamicCustomer(string name)
         {
             dynamic cus = new ExpandoObject();
@@ -73,9 +74,6 @@ namespace HP_StockDataCollector.Dynamic
             ((IDictionary<string, object>)cust)[propertyName] = PropertyValue;
             return cust;
         }
-
-
-
         private static Task<decimal> LongRunningCancellableOperation(int loop, CancellationToken cancellationToken)
         {
             Task<decimal> task = null;
@@ -104,7 +102,6 @@ namespace HP_StockDataCollector.Dynamic
         }
     }
 }
-// https://visualstudiomagazine.com/articles/2019/04/01/making-it-up-as-you-go.aspx
-// https://visualstudiomagazine.com/articles/2019/04/01/working-with-dynamic-objects.aspx
-// https://www.oreilly.com/content/building-c-objects-dynamically/
+
+
 

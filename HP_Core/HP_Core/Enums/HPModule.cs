@@ -5,6 +5,7 @@
         Unknown,
         Reporting,
         CLI,
-        Visualizer
+        Visualizer,
+        StockDataCollector,
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace HP_StockDataCollector.Domain
 {
@@ -9,6 +10,10 @@ namespace HP_StockDataCollector.Domain
     {
         [JsonProperty("fullExchangeName")]
         public string FullExchangeName { get; set; }
+
+        [JsonProperty("exchangeTimezoneShortName")]
+        public string ExchangeTimezoneShortName { get; set; }
+
         [JsonProperty("symbol")]
         public string Symbol { get; set; }
         [JsonProperty("quoteType")]
@@ -16,10 +21,12 @@ namespace HP_StockDataCollector.Domain
         [JsonProperty("shortName")]
         public string ShortName { get; set; }
         [JsonProperty("regularMarketPreviousClose")]
-        public regularMarketPreviousClose RegularMarketPrevClose { get; set; }
+        public RegularMarket RegularMarketPrevClose { get; set; }
 
+        [JsonProperty("regularMarketPrice")]
+        public RegularMarket RegularMarketPrice { get; set; }
     }
-    public class regularMarketPreviousClose
+    public class RegularMarket
     {
         public double raw { get; set; }
         public double fmt { get; set; }

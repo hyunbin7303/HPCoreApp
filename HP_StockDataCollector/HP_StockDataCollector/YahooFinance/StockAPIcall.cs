@@ -23,7 +23,6 @@ namespace HP_StockDataCollector.YahooFinance
         {
             _category = "stock";
             _endPointTitle = EndpointTitle.Stock;
-
         }
         public void GetStatistic(string company)
         {

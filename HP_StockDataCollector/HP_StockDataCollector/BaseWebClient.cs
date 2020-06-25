@@ -1,6 +1,7 @@
 ﻿using HP_StockDataCollector.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -54,12 +55,19 @@ namespace HP_StockDataCollector
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 Console.WriteLine("Status code : Not found "); // Logging require, not console WriteLine.
-                //Console.WriteLine(_request.); // Error logging properly!
                 return "ERROR";
             }
-            JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
-            var result = check.SelectToken(selectToken).ToString();
-            return result;
+            try
+            {
+                JObject jobj = (JObject)JsonConvert.DeserializeObject(response.Content);
+                var result = jobj.SelectToken(selectToken).ToString();
+                return result;
+            }
+            catch(JsonException je)
+            {
+                Console.WriteLine(je.Message);
+                return "Json Exception";
+            }
         }
     }
 }

@@ -12,5 +12,5 @@ namespace HP_StockDataCollector.Multithread
     public class ThreadPoolTest
     {
     }
-  //  http://www.learncsharptutorial.com/threadpooling-csharp-example.php
+  //  
 }
