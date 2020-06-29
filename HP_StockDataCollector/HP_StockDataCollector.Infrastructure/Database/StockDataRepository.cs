@@ -55,11 +55,8 @@ namespace HP_StockDataCollector.Infrastructure.Database
             using (_conn = (SqlConnection)dal.CreateConnection())
             {
                 _conn.Open();
-                using
 
             }
-
-
 
             dal.CloseConnection(_conn);
         }

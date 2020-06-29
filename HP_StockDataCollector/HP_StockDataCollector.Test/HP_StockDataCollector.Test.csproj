@@ -17,4 +17,10 @@
     <ProjectReference Include="..\HP_StockDataCollector\HP_StockDataCollector.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="HP_Infrastructure">
+      <HintPath>..\..\HP_Core\HP_Infrastructure\bin\Debug\netcoreapp3.1\HP_Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

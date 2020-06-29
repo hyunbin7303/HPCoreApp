@@ -16,5 +16,6 @@ namespace HP_Infrastructure.Database
         IEnumerable<TEntity> GetWithRawSql(string query, params object[] paras);
         void Insert(TEntity entity);
         void Update(TEntity entityToUpdate);
+
     }
 }

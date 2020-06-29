@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace HP_StockDataCollector.Multithread
 {
@@ -11,6 +12,38 @@ namespace HP_StockDataCollector.Multithread
     // This reusability avoids an application to create more threads and this enables less memory consumption.
     public class ThreadPoolTest
     {
+
+        static void Process(object Callback)
+        {
+
+        }
+
+        static void ProcessWithThreeMethods()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Thread obj = new Thread(Process);
+                obj.Start();
+            }
+        }
+
     }
-  //  
+  //  A callback is executable code that is passed as an argument to other code
+    public class Parent
+    {
+        public string Read() { return "Parent"; }
+    }
+    public class Child
+    {
+        private string info;
+        delegate string GetInfo();
+        public GetInfo GetMemberInformation;
+        public void ObtainInfo()
+        {
+            info = GetMemberInformation();
+        }
+    }
+    
+
+
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace HP_StockDataCollector.Test
 {
     [TestClass]
-    public class YahooFiananceMarketAPITest
+    public class YahooFinanceMarketAPITest
     {
         #region NormalTest_Market
         [TestMethod]
@@ -60,10 +60,6 @@ namespace HP_StockDataCollector.Test
         #endregion
 
         #region NormalTest_Stock
-        //[TestMethod]
-        //public async Task Get
-
-
         #endregion
 
 
