@@ -26,9 +26,4 @@ namespace HP_StockDataCollector.Domain
         [JsonProperty("regularMarketPrice")]
         public RegularMarket RegularMarketPrice { get; set; }
     }
-    public class RegularMarket
-    {
-        public double raw { get; set; }
-        public double fmt { get; set; }
-    }
 }

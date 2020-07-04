@@ -66,7 +66,6 @@ namespace HP_Infrastructure.Database
         {
             throw new NotImplementedException();
         }
-
         public bool ExecuteNonQuery(IDbCommand cmd, IDbDataParameter[] paras = null)
         {
             try

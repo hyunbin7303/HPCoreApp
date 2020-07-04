@@ -5,6 +5,7 @@ using Newtonsoft.Json.Schema;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -68,6 +69,35 @@ namespace HP_StockDataCollector
                 Console.WriteLine(je.Message);
                 return "Json Exception";
             }
+        }
+
+        protected async Task<object> getRestResponseDynamicObjAsnyc(string selectToken)
+        {
+            IRestResponse response = await _client.ExecuteAsync(_request);
+            if(response.StatusCode == HttpStatusCode.NotFound)
+            {
+                Console.WriteLine("Status code : Not found "); // Logging require, not console WriteLine.
+                return "ERROR";
+            }
+            try
+            {
+                JObject jobj = (JObject)JsonConvert.DeserializeObject(response.Content);
+                return jobj;
+            }
+            catch(JsonException je)
+            {
+                Console.WriteLine(je.Message);
+                return "Json Exception";
+            }
+        }
+        public static void AddProperty(ExpandoObject expando, string propertyName, object propertyValue)
+        {
+            // ExpandoObject supports IDictionary so we can extend it like this
+            var expandoDict = expando as IDictionary<string, object>;
+            if (expandoDict.ContainsKey(propertyName))
+                expandoDict[propertyName] = propertyValue;
+            else
+                expandoDict.Add(propertyName, propertyValue);
         }
     }
 }

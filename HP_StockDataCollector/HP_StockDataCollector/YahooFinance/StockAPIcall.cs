@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,23 +25,36 @@ namespace HP_StockDataCollector.YahooFinance
             _category = "stock";
             _endPointTitle = EndpointTitle.Stock;
         }
-        public void GetStatistic(string company)
+        public async Task<object> GetStatisticAllAsync(string company, string selectToken)
         {
-            IRestResponse response = _client.Execute(_request);
-            JObject check = (JObject)JsonConvert.DeserializeObject(response.Content);
-            var result = check.SelectToken("marketSummaryResponse.result").ToString();
-            System.Console.WriteLine(result);
-        }
-        public async Task<bool> GetHolderAsync(string company, string selectToken)
-        {
-            _categoryOption = "get-holders";
+            _categoryOption = "get-statistics";
             var urldic = new Dictionary<string, string>();
-            urldic.Add("symbol", company);
+            urldic.Add("region", "US");
+            urldic.Add("symbol", "AMRN");
             RequestHeader(urldic);
-            await getRestResponseAsync(selectToken);
-            return true;
+            var statisticObj = await getRestResponseDynamicObjAsnyc(selectToken);
+            return statisticObj;
         }
-        public async Task<bool> GetBalanceSheetAsync(string company, string selectToken)
+        public async Task<Statistics> GetStatisticAsync(string company, string selectToken)
+        {
+            _categoryOption = "get-statistics";
+            var urldic = new Dictionary<string, string>();
+            urldic.Add("region", company);
+            urldic.Add("symbol", "AMRN");
+            RequestHeader(urldic);
+            var checkStr = await getRestResponseAsync(selectToken);
+            try
+            {
+                var statistic = JsonConvert.DeserializeObject<Statistics>(checkStr);
+                return statistic;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+        public async Task<BalanceSheet> GetBalanceSheetAsync(string company, string selectToken)
         {
             _categoryOption = "get-balance-sheet";
             var urldic = new Dictionary<string, string>();
@@ -49,33 +63,51 @@ namespace HP_StockDataCollector.YahooFinance
             await getRestResponseAsync(selectToken);
             return true;
         }
-        public async Task<bool> GetSummaryAsync(string region, string company, string selectToken)
+        public async Task<IList<StockSummary>> GetSummaryAsync(string company, string selectToken)
         {
+            if(company == null)
+            {
+                Console.WriteLine("Company is empty, Please type company name");
+                return null;
+            }
+
             _categoryOption = "get-summary";
             var urldic = new Dictionary<string, string>();
-            urldic.Add("region", region);
+            urldic.Add("region", "US");
             urldic.Add("symbol", company);
             RequestHeader(urldic);
-            await getRestResponseAsync(selectToken);
-            return true;
+            var checkStr = await getRestResponseAsync(selectToken);
+            var summary = JsonConvert.DeserializeObject<List<StockSummary>>(checkStr);
+            return summary;
         }
-        public async Task<bool> GetHistoricalDataAsync(string symbol, string period1, string period2, string selectToken, DateTime? statTime = null, DateTime? endTime = null)
+
+
+        // HOw to use Cancellation token in here?...
+
+        public async Task<bool> GetHistoricalDataAsync(string symbol, string period1, string period2, string selectToken,string frequency = null, string filter = null)
         {
             _categoryOption = "get-historical-data";
             var urldic = new Dictionary<string, string>();
             urldic.Add("period1", period1);
             urldic.Add("period2", period2);
             urldic.Add("symbol", symbol);
+            if (frequency != null)
+                urldic.Add("frequency", frequency);
+            if (filter != null)
+                urldic.Add("filter", filter);
+
             RequestHeader(urldic);
-            await getRestResponseAsync(selectToken);
+            var checkStr = await getRestResponseAsync(selectToken);
             return true;
         }
+        
+        
+        
+        // Need to check how this method is runnign
         //public static async Task<IReadOnlyList<Candle>> GetHistoricalAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, Period period = Period.Daily, CancellationToken token = default)
         //{
         //    await GetTicksAsync(symbol, startTime, endTime, period, ShowOption.History, RowExtension.ToCandle, token).ConfigureAwait(false);
         //    // How the Get Ticks Async is working?
         //}
-
-
     }
 }

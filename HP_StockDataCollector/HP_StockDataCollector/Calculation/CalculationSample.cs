@@ -48,12 +48,12 @@ namespace HP_StockDataCollector.Calculation
             Func<QuoteData, bool> IsQuoteValid = quoteExprChecking.Compile();
 
 
-            Expression<Func<QuoteData, bool>> IsQuote;
-            Expression.Lambda<Func<QuoteData, bool>>(
-                Expression.AndAlso(
-                    Expression.GreaterThan(Expression.Property(quoteExpr, "Ask"), Expression.Constant(12, typeof(double))),
-                    Expression.LessThan(Expression.Property(quoteExpr, "Bid"), Expression.Constant(20, typeof(double)))),
-                            new[] { quoteExpr });
+            //Expression<Func<QuoteData, bool>> IsQuote;
+            //Expression.Lambda<Func<QuoteData, bool>>(
+            //    Expression.AndAlso(
+            //        Expression.GreaterThan(Expression.Property(quoteExpr, "Ask"), Expression.Constant(12, typeof(double))),
+            //        Expression.LessThan(Expression.Property(quoteExpr, "Bid"), Expression.Constant(20, typeof(double)))),
+            //                new[] { quoteExpr });
 
 
 

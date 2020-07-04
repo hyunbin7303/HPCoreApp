@@ -2,6 +2,7 @@
 using HP_StockDataCollector.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -33,11 +34,11 @@ namespace HP_StockDataCollector.DataCollection
             DataAccessLayer dal = new DataAccessLayer(connectionString);
             var conn = dal.CreateConnection();
             dal.OpenConnection(conn);
-
+            //dal.ExecuteNonQuery()
             // Call Stored Procedure for insertion?.
 
             dal.CloseConnection(conn);
-
+            return null;
         }
 
 
