@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
-namespace HP_StockDataCollector.YahooFinance
+﻿using System.Runtime.Serialization;
+namespace HP_StockDataCollector.Domain
 {
     public enum Frequency
     {
@@ -16,5 +12,6 @@ namespace HP_StockDataCollector.YahooFinance
         [EnumMember(Value = "1mo")]
         Monthly
     }
+
     
 }

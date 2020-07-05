@@ -17,7 +17,7 @@ namespace HP_StockDataCollector.Test
             MarketAPIcall market = new MarketAPIcall();
             var getSummary = await market.GetSummaryAsync();
             Assert.IsNotNull(getSummary);
-            Assert.Equals(getSummary[0].ShortName, "S&P 500");
+            Assert.AreEqual(getSummary[0].ShortName, "S&P 500");
         }
         [TestMethod]
         public async Task GetQuotesTestNormalTesting()

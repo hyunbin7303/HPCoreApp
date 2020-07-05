@@ -17,7 +17,7 @@ namespace HP_StockDataCollector.YahooFinance
         public async Task<IList<MarketSummary>> GetSummaryAsync()
         {
             _categoryOption = "get-summary";
-            var urldic = new Dictionary<string, string>();
+            var urldic = new Dictionary<string, object>();
             urldic.Add("region", "US");
             urldic.Add("lang", "en");
             RequestHeader(urldic);
@@ -28,7 +28,7 @@ namespace HP_StockDataCollector.YahooFinance
         public async Task<IList<QuoteData>> GetQuotesAsync(string symbolValue, string selectToken)
         {
             _categoryOption = "get-quotes";
-            var urldic = new Dictionary<string, string>();
+            var urldic = new Dictionary<string, object>();
             urldic.Add("region", "US");
             urldic.Add("lang", "en");
             urldic.Add("symbols", symbolValue);
@@ -37,10 +37,10 @@ namespace HP_StockDataCollector.YahooFinance
             var quoteList = JsonConvert.DeserializeObject<List<QuoteData>>(checkStr);
             return quoteList;
         }
-        public async Task<IList<Mover>> GetMoverAPIAsync(string? start = null, string? count = null)
+        public async Task<IList<Mover>> GetMoverAPIAsync(string start = null, string count = null)
         {
             _categoryOption = "get-movers";
-            var urldic = new Dictionary<string, string>();
+            var urldic = new Dictionary<string, object>();
             urldic.Add("region", "US");
             urldic.Add("lang", "en");
             if(start != null || count != null)
@@ -56,7 +56,7 @@ namespace HP_StockDataCollector.YahooFinance
         public async Task<string> GetAutoCompleteAsync(string query)
         {
             _categoryOption = "auto-complete";
-            var urldic = new Dictionary<string, string>();
+            var urldic = new Dictionary<string, object>();
             urldic.Add("region", "US");
             urldic.Add("lang", "en");
             urldic.Add("query", query);
@@ -70,7 +70,7 @@ namespace HP_StockDataCollector.YahooFinance
         public async Task<string> GetChartAsync(string symbol, string interval, string range, string comparisons)
         {
             _categoryOption = "get-charts";
-            var urldic = new Dictionary<string, string>();
+            var urldic = new Dictionary<string, object>();
             urldic.Add("region", "US");
             urldic.Add("lang", "en");
             urldic.Add("symbol", symbol);

@@ -25,7 +25,7 @@ namespace HP_StockDataCollector
         protected string _category;
         protected string _categoryOption;
         protected EndpointTitle _endPointTitle;
-        public void RequestHeader(Dictionary<string,string> urlpara)
+        public void RequestHeader(Dictionary<string,object> urlpara)
         {
             string totalUrl = string.Empty;
             if(_endPointTitle== EndpointTitle.Stock)
@@ -52,14 +52,15 @@ namespace HP_StockDataCollector
         }
         protected async Task<string> getRestResponseAsync(string selectToken)
         {
-            IRestResponse response = await _client.ExecuteAsync(_request);
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                Console.WriteLine("Status code : Not found "); // Logging require, not console WriteLine.
-                return "ERROR";
-            }
+            IRestResponse response = null;
             try
             {
+                response = await _client.ExecuteAsync(_request);
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    Console.WriteLine("Status code : Not found "); // Logging require, not console WriteLine.
+                    return "ERROR";
+                }
                 JObject jobj = (JObject)JsonConvert.DeserializeObject(response.Content);
                 var result = jobj.SelectToken(selectToken).ToString();
                 return result;
