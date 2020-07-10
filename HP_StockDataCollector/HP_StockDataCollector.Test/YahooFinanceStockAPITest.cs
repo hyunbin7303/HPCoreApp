@@ -10,8 +10,6 @@ namespace HP_StockDataCollector.Test
     [TestClass]
     public class YahooFinanceStockAPITest
     {
-
-
         #region normalTesting
         [TestMethod]
         public void Call_StockAPI_GetSummary()
@@ -20,19 +18,13 @@ namespace HP_StockDataCollector.Test
             var check1 = stockAPIcall.GetSummaryAsync("AMRN", "defaultKeyStatistics");
             Assert.IsNotNull(check1);
         }
-
         [TestMethod]
         public async Task Call_StockAPI_GetHistoricalDataAsync()
         {
             StockAPIcall stockAPIcall = new StockAPIcall();
             var check1 = await stockAPIcall.GetHistoricalDataAsync("MSFT", 1546448400, 1561046800, "prices", Frequency.Daily, Filter.HistoricalPrices);
-            //var check2 = stockAPIcall.GetHistoricalDataAsync("MSFT", 1593891928, 1593805528, "firstTradeDate", Frequency.Daily, Filter.HistoricalPrices);
-           // Assert.IsNotNull(check1);
-            //Assert.IsNotNull(check2);
-            await stockAPIcall.TestingAsync();
-            Console.WriteLine("CHECK");
+            Assert.IsNotNull(check1);
         }
-
         [TestMethod]
         public async Task Call_StockAPI_GetStatisticAsync()
         {
@@ -41,25 +33,29 @@ namespace HP_StockDataCollector.Test
             Assert.IsNotNull(test);
             Assert.AreEqual("Amarin Corporation plc", test.ShortName);
         }
-
         [TestMethod]
         public async Task Call_StockAPI_GetStatisticAllObjAsync()
         {
             StockAPIcall stock = new StockAPIcall();
             var test = await stock.GetStatisticAllAsync("US", "quoteData." + "");
-            
         }
-
         [TestMethod]
-        public void Call_StockAPI_GetBalanceSheet()
+        public async Task Call_StockAPI_GetBalanceSheetAsync()
         {
-
+            StockAPIcall stock = new StockAPIcall();
+            var test = await stock.GetBalanceSheetAsync("IBM", "price");
+            Assert.IsNotNull(test);
         }
         [TestMethod]
         public void Call_StockAPI_GetFinancials()
         {
 
         }
+        #endregion
+
+        #region ExceptionTesting
+
+
         #endregion
     }
 }

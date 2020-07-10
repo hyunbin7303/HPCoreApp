@@ -2,8 +2,6 @@
 using HP_StockDataCollector.Domain;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RestSharp;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace HP_StockDataCollector.YahooFinance
@@ -63,10 +61,7 @@ namespace HP_StockDataCollector.YahooFinance
             RequestHeader(urldic);
             var checkStr = await getRestResponseAsync("ResultSet");
             return checkStr;
-
         }
-
-
         public async Task<string> GetChartAsync(string symbol, string interval, string range, string comparisons)
         {
             _categoryOption = "get-charts";
@@ -80,10 +75,8 @@ namespace HP_StockDataCollector.YahooFinance
             await getRestResponseAsync("");
             return "";
         }
- 
     }
 }
-
 // Worker - Set up to save data in sql server.
 // Need to create SQL server ...
 //https://www.youtube.com/watch?v=c5ZDbDGySc0

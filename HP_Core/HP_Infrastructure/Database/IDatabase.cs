@@ -9,8 +9,11 @@ namespace HP_Infrastructure.Database
 {
     public interface IDatabase
     {
-        IDbConnection CreateConnection();
+        bool CreateConnection();
+
+        void OpenConnection();
         bool OpenConnection(IDbConnection conn);
+        bool CloseConnection();
         bool CloseConnection(IDbConnection conn);
         IDbCommand CreateCommand(string cmdText, IDbConnection conn);
         IDataAdapter CreateAdapter(IDbCommand cmd);

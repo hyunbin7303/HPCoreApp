@@ -61,15 +61,5 @@ namespace HP_StockDataCollector.Test
 
         #region NormalTest_Stock
         #endregion
-
-
-
-
-        public async Task GetChartTestAsync()
-        {
-            MarketAPIcall market = new MarketAPIcall();
-            //What is this symbol value? 
-            //await market.GetChartAsync();
-        }
     }
 }

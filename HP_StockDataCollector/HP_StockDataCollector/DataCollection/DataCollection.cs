@@ -2,6 +2,7 @@
 using HP_StockDataCollector.Domain;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
@@ -18,7 +19,6 @@ namespace HP_StockDataCollector.DataCollection
         public List<MarketSummary> marketSummaries { get; set; } = new List<MarketSummary>();
         public DataCollection()
         {
-
         }
 
         public void CalculateStockDataBetweenTime()
@@ -29,15 +29,20 @@ namespace HP_StockDataCollector.DataCollection
 
         private static string connectionString = $"Server= VHW-R90RDFTG\\SQLEXPRESS; Database= HPdatabase; Integrated Security = SSPI;";
 
-        public IEnumerable<StockSummary> GetAllMarketSumamry()
+        public IEnumerable<StockSummary> StoreMarketSumamry()
         {
             DataAccessLayer dal = new DataAccessLayer(connectionString);
             var conn = dal.CreateConnection();
-            dal.OpenConnection(conn);
-            //dal.ExecuteNonQuery()
-            // Call Stored Procedure for insertion?.
 
-            dal.CloseConnection(conn);
+            //using( DataAccessLayer dal = new DataAccessLayer(connectionString))
+            //{
+
+            //}
+
+            // Call Stored Procedure for insertion?.
+            // use Using... --> provides a convenient syntax that ensures the c orrect use of IDisposable objects.
+            // Beginning in C# 8.0, the using statement ensures the correct use of IAsyncDisposable objets.
+
             return null;
         }
 
@@ -45,22 +50,6 @@ namespace HP_StockDataCollector.DataCollection
     }
 
 
-
     //https://docs.microsoft.com/en-us/dotnet/architecture/microservices/architect-microservice-container-applications/communication-in-microservice-architecture
-    //public interface IEventBus
-    //{
-    //    void Publish(IntegrationEvent @event);
 
-    //    void Subscribe<T, TH>()
-    //        where T : IntegrationEvent
-    //        where TH : IIntegrationEventHandler<T>;
-
-    //    void SubscribeDynamic<TH>(string eventName)
-    //        where TH : IDynamicIntegrationEventHandler;
-    //    void UnsubscribeDynamic<TH>(string eventName)
-    //        where TH : IDynamicIntegrationEventHandler;
-    //    void Unsubscribe<T, TH>()
-    //        where TH : IIntegrationEventHandler<T>
-    //        where T : IntegrationEvent;
-    //}
 }

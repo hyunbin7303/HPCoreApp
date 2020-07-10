@@ -17,11 +17,21 @@ namespace HP_Testing
             bool IsValid = true;
             DataAccessLayer dal = new DataAccessLayer(connectionString);
             var conn = dal.CreateConnection();
-            IsValid = dal.OpenConnection(conn);
-            var cmd = conn.CreateCommand();
-            var close = dal.CloseConnection(conn);
+            dal.OpenConnection();
+            var close = dal.CloseConnection();
             Assert.IsTrue(close);
         }
+
+        [Test]
+        public void TestingUsingConnection()
+        {
+            using (DataAccessLayer dal = new DataAccessLayer(connectionString))
+            {
+                dal.CreateConnection();
+                dal.OpenConnection();
+            }
+        }
+
 
 
         // Connecting to the Stored procedure.
@@ -31,14 +41,14 @@ namespace HP_Testing
             bool IsValid = true;
             DataAccessLayer dal = new DataAccessLayer(connectionString);
             var conn = dal.CreateConnection();
-            IsValid =  dal.OpenConnection(conn);
-             var cmd = dal.CreateCommand("SP_InsertTest", conn);
+            //IsValid =  dal.OpenConnection(conn);
+            // var cmd = dal.CreateCommand("SP_InsertTest", conn);
             var para1 = new SqlParameter("para1",  SqlDbType.NVarChar);
             SqlParameter[] sqlParas =
             {
                 para1
             };
-            dal.ExecuteNonQuery(cmd, sqlParas);
+            //dal.ExecuteNonQuery(cmd, sqlParas);
         }
 
         // Connecting to the Stored procedure.
@@ -48,8 +58,8 @@ namespace HP_Testing
             bool IsValid = true;
             DataAccessLayer dal = new DataAccessLayer(connectionString);
             var conn = dal.CreateConnection();
-            IsValid = dal.OpenConnection(conn);
-            var cmd = dal.CreateCommand("SP_DeleteTest", conn);
+            dal.OpenConnection();
+            var cmd = dal.CreateCommand("SP_DeleteTest", dal._sqlConn);
             var para1 = new SqlParameter("para1", SqlDbType.NVarChar);
             var para2 = new SqlParameter("para2", SqlDbType.NVarChar);
             SqlParameter[] sqlParas ={para1,para2};
@@ -67,14 +77,14 @@ namespace HP_Testing
             bool IsValid = true;
             DataAccessLayer dal = new DataAccessLayer(connectionString);
             var conn = dal.CreateConnection();
-            IsValid = dal.OpenConnection(conn);
-            var cmd = conn.CreateCommand();
-            cmd.CommandTimeout = 30;
-            var adapter=dal.CreateAdapter(cmd);
+            //IsValid = dal.OpenConnection(conn);
+            ////var cmd = conn.CreateCommand();
+            //cmd.CommandTimeout = 30;
+            //var adapter=dal.CreateAdapter(cmd);
 
 
-            var close = dal.CloseConnection(conn);
-            Assert.IsTrue(close);
+            //var close = dal.CloseConnection(conn);
+            //Assert.IsTrue(close);
         }
 
     }

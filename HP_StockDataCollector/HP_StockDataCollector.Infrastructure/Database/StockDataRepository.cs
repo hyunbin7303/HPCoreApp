@@ -11,27 +11,20 @@ namespace HP_StockDataCollector.Infrastructure.Database
 {
     public class StockDataRepository : IRepository<StockData>
     {
-        DataAccessLayer dal = null;
         private static SqlConnection _conn;
         public StockDataRepository(string connStr)
         {
-            dal = new DataAccessLayer(connStr);
         }
 
         public void Delete(StockData entityToDelete)
         {
-            _conn = (SqlConnection)dal.CreateConnection();
+            //_conn = (SqlConnection)dal.CreateConnection();
 
-
-            dal.CloseConnection(_conn);
         }
 
         public void Delete(object id)
         {
-            _conn = (SqlConnection)dal.CreateConnection();
 
-
-            dal.CloseConnection(_conn);
         }
 
         public IEnumerable<StockData> Get(Expression<Func<StockData, bool>> filter = null, Func<IQueryable<StockData>, IOrderedQueryable<StockData>> orderBy = null, string includeProperties = "")
@@ -52,13 +45,12 @@ namespace HP_StockDataCollector.Infrastructure.Database
 
         public void Insert(StockData entity)
         {
-            using (_conn = (SqlConnection)dal.CreateConnection())
-            {
-                _conn.Open();
+            //using (_conn = (SqlConnection)dal.CreateConnection())
+            //{
+            //    _conn.Open();
 
-            }
+            //}
 
-            dal.CloseConnection(_conn);
         }
 
         public void Update(StockData entityToUpdate)
