@@ -15,7 +15,7 @@ namespace HP_Testing
         public void TestingConnection()
         {
             bool IsValid = true;
-            DataAccessLayer dal = new DataAccessLayer(connectionString);
+            MsSqlDataAccess dal = new MsSqlDataAccess(connectionString);
             var conn = dal.CreateConnection();
             dal.OpenConnection();
             var close = dal.CloseConnection();
@@ -25,12 +25,12 @@ namespace HP_Testing
         [Test]
         public void TestingUsingConnection()
         {
-            using (DataAccessLayer dal = new DataAccessLayer(connectionString))
+            using (MsSqlDataAccess dal = new MsSqlDataAccess(connectionString))
             {
                 dal.CreateConnection();
                 dal.OpenConnection();
             }
-        }
+        }  
 
 
 
@@ -39,7 +39,7 @@ namespace HP_Testing
         public void CallExecuteNonQueryFor_SP_InsertTest()
         {
             bool IsValid = true;
-            DataAccessLayer dal = new DataAccessLayer(connectionString);
+            MsSqlDataAccess dal = new MsSqlDataAccess(connectionString);
             var conn = dal.CreateConnection();
             //IsValid =  dal.OpenConnection(conn);
             // var cmd = dal.CreateCommand("SP_InsertTest", conn);
@@ -56,7 +56,7 @@ namespace HP_Testing
         public void CallExecuteNonQueryFor_SP_DeleteTest()
         {
             bool IsValid = true;
-            DataAccessLayer dal = new DataAccessLayer(connectionString);
+            MsSqlDataAccess dal = new MsSqlDataAccess(connectionString);
             var conn = dal.CreateConnection();
             dal.OpenConnection();
             var cmd = dal.CreateCommand("SP_DeleteTest", dal._sqlConn);
@@ -69,13 +69,19 @@ namespace HP_Testing
         [Test]
         public void CallFunctionTesting()
         {
+            using (MsSqlDataAccess dal = new MsSqlDataAccess(connectionString))
+            {
+                dal.CreateConnection();
+                dal.OpenConnection();
+            }
+
         }
 
         [Test]
         public void TestingCallTableData()
         {
             bool IsValid = true;
-            DataAccessLayer dal = new DataAccessLayer(connectionString);
+            MsSqlDataAccess dal = new MsSqlDataAccess(connectionString);
             var conn = dal.CreateConnection();
             //IsValid = dal.OpenConnection(conn);
             ////var cmd = conn.CreateCommand();

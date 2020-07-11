@@ -33,7 +33,6 @@ namespace HP_StockDataCollector.Test
             Assert.IsNotNull(quotelist3);
             Assert.IsNotNull(quotelist4);
         }
-
         [TestMethod]
         public async Task GetMoversAsyncTesting()
         {

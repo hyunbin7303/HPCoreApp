@@ -22,14 +22,23 @@ namespace HP_StockDataCollector.Test
             dal.GetConnectionString("");
             var check = dal.CreateConnection();
             //dal.OpenConnection(check);
-
-
             //dal.CloseConnection(check);
 
             Assert.IsNotNull(getSummary);
             Assert.Equals(getSummary[0].ShortName, "S&P 500");
         }
 
+
+        [TestMethod]
+        public void DisplayData_MarketSummary()
+        {
+            using(DataAccessLayer dal = new DataAccessLayer())
+            {
+                if(dal.CreateConnection())
+                {
+                }
+            }
+        }
 
         #endregion
     }

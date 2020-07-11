@@ -9,16 +9,18 @@ namespace HP_Infrastructure.Database
 {
     public interface IDatabase
     {
-        bool CreateConnection();
+        IDbConnection CreateConnection();
 
         void OpenConnection();
         bool OpenConnection(IDbConnection conn);
         bool CloseConnection();
         bool CloseConnection(IDbConnection conn);
         IDbCommand CreateCommand(string cmdText, IDbConnection conn);
+        IDbCommand CreateCommand(string cmdText, CommandType cmdType, IDbConnection conn);
         IDataAdapter CreateAdapter(IDbCommand cmd);
-        IDataReader GetDataReader(string cmdText, IDbDataParameter[] paras, out IDbConnection conn);
+        IDataReader GetDataReader(string cmdText, CommandType cmdType,IDbDataParameter[] paras, out IDbConnection conn);
 
-
+        DataTable GetDataTable(string cmdText, CommandType cmdType, IDbDataParameter[] paras = null);
+        DataSet GetDataSet(string cmdText, CommandType cmdType, IDbDataAdapter[] paras = null);
     }
 }

@@ -31,14 +31,10 @@ namespace HP_StockDataCollector.DataCollection
 
         public IEnumerable<StockSummary> StoreMarketSumamry()
         {
-            DataAccessLayer dal = new DataAccessLayer(connectionString);
-            var conn = dal.CreateConnection();
+            using (DataAccessLayer dal = new DataAccessLayer())
+            {
 
-            //using( DataAccessLayer dal = new DataAccessLayer(connectionString))
-            //{
-
-            //}
-
+            }
             // Call Stored Procedure for insertion?.
             // use Using... --> provides a convenient syntax that ensures the c orrect use of IDisposable objects.
             // Beginning in C# 8.0, the using statement ensures the correct use of IAsyncDisposable objets.
