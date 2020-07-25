@@ -71,7 +71,6 @@ namespace HP_StockDataCollector
                 return "Json Exception";
             }
         }
-
         protected async Task<object> getRestResponseDynamicObjAsnyc(string selectToken)
         {
             IRestResponse response = await _client.ExecuteAsync(_request);

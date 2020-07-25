@@ -17,8 +17,6 @@ namespace HP_Infrastructure.Module
     // -- Attach to component resolution events and extend how parameters are resolved or perform other extensions. (e.g. log4net integration module).
     public class ProgramModule : Autofac.Module
     {
-
-
         private DeployType deploytype;
         public DeployType DeployType
         {
@@ -37,13 +35,11 @@ namespace HP_Infrastructure.Module
         protected override void Load(ContainerBuilder builder)
         {
             var buildconfig = new ConfigurationBuilder()
-    .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json");
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
-
-
+            .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+                    IConfiguration config = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json", true, true)
+                        .Build();
 
             if (deploytype == DeployType.Development)
             {

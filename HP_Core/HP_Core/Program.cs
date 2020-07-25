@@ -76,6 +76,7 @@ namespace HP_Core
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 //MessageBox.Show("Error");
             }
         }
