@@ -10,130 +10,13 @@ using System.Data.SqlClient;
 
 namespace HP_Infrastructure.Database
 {
-    // Databse Helper
-    public class MsSQLHelper
-    {
-        public ProviderManager pManager { get; set; }
-        private string ConnString { get; set; }
-        public MsSQLHelper()
-        {
-            ConnString = ConfigurationSetting.ConnectionString;
-            pManager = new ProviderManager();
-        }
-        public MsSQLHelper(string connStr)
-        {
-            ConnString = connStr;
-            pManager = new ProviderManager(ConfigurationSetting.GetProviderName(ConnString));
-        }
-        public DbConnection GetConn()
-        {
-            try
-            {
-                var conn = pManager.Factory.CreateConnection();
-                conn.ConnectionString = ConnString;
-                conn.Open();
-                return conn;
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error occured duing connection setup. ");
-            }
-        }
-        public bool CloseConn(IDbConnection conn)
-        {
-            if (conn.State == ConnectionState.Open)
-            {
-                var getConn = conn;
-                getConn.Close();
-                getConn.Dispose();
-                Console.WriteLine(conn.ToString() + "Closed and Disposed");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Connection was already closed before");
-                return false;
-            }
-        }
-        public IDbCommand GetCommand(string cmdText, IDbConnection conn, CommandType cmdType)
-        {
-            try
-            {
-                IDbCommand cmd = pManager.Factory.CreateCommand();
-                cmd.CommandText = cmdText;
-                cmd.Connection = conn;
-                cmd.CommandType = cmdType;
-                return cmd;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Invalid parameter 'CommandText'." + ex.Message);
-            }
-        }
-        public DbDataAdapter GetDataAdapter(IDbCommand cmd)
-        {
-            DbDataAdapter adapter = pManager.Factory.CreateDataAdapter();
-            adapter.SelectCommand = (DbCommand)cmd;
-            adapter.InsertCommand = (DbCommand)cmd;
-            adapter.UpdateCommand = (DbCommand)cmd;
-            adapter.DeleteCommand = (DbCommand)cmd;
-            return adapter;
-        }
-        public DbParameter GetParameter(string name, object value, DbType dbType)
-        {
-            try
-            {
-                DbParameter dbParam = pManager.Factory.CreateParameter();
-                dbParam.ParameterName = name;
-                dbParam.Value = value;
-                dbParam.Direction = ParameterDirection.Input;
-                dbParam.DbType = dbType;
-                return dbParam;
-            } catch (Exception ex)
-            {
-                throw new Exception("Invalid parameter or type." + ex.Message);
-            }
-        }
-        public DbParameter GetParameter(string name, object value, DbType dbType, ParameterDirection paraDirection)
-        {
-            try
-            {
-                DbParameter dbParam = pManager.Factory.CreateParameter();
-                dbParam.ParameterName = name;
-                dbParam.Value = value;
-                dbParam.Direction = paraDirection;
-                dbParam.DbType = dbType;
-                return dbParam;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Invalid parameter or type." + ex.Message);
-            }
-        }
-        public DbParameter GetParameter(string name, object value, int size, DbType dbType, ParameterDirection paraDirection)
-        {
-            try
-            {
-                DbParameter dbParam = pManager.Factory.CreateParameter();
-                dbParam.ParameterName = name;
-                dbParam.Value = value;
-                dbParam.Direction = paraDirection;
-                dbParam.DbType = dbType;
-                dbParam.Size = size;
-                return dbParam;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Invalid parameter or type." + ex.Message);
-            }
-        }
-    }
+
     public class DatabaseManager : IDatabase, IDisposable
     {
         //public  SqlConnection _sqlConn = null;
         private MsSQLHelper database;
-        private string ConnString { get; set; }
         public DatabaseManager(){
+            DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.Instance);
             database = new MsSQLHelper();
         }
         public string GetConnectionString(string name)

@@ -28,7 +28,7 @@ namespace HP_Infrastructure.Database
         {
             try
             {
-                return ConfigurationManager.ConnectionStrings[connName].ProviderName;
+                return ConfigurationManager.ConnectionStrings[0].ProviderName;
             }catch(Exception)
             {
                 throw new Exception(string.Format($"Provider is not working,,, Connection string {0} not Found.", connName));

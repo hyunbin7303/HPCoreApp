@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Dynamic;
 using System.Text;
@@ -11,21 +12,11 @@ namespace HP_Testing
 {
     public class SQLServerDBTest
     {
-        private static string connectionString = $"Server= VHW-R90RDFTG\\SQLEXPRESS; Database= HPdatabase; Integrated Security = SSPI;";
         [Test]
         public void TestingConnection()
         {
             DatabaseManager dal = new DatabaseManager();
         }
-        [Test]
-        public void TestingUsingConnection()
-        {
-            using (DatabaseManager dal = new DatabaseManager())
-            {
-
-            }
-        }
-
         public class User
         {
             public int Id { get; set; }
@@ -34,29 +25,34 @@ namespace HP_Testing
             public string Account { get; set; }
         }
 
+
+
         [Test]
-        public void SPInsertUser()
+        public void TestingSqlReader()
         {
-            var kObj = new User { FirstName = "Kevin", LastName = "Park", Id = 50, Account ="Kevin12345" };
-            DatabaseManager dbManager = new DatabaseManager();
+            DatabaseManager dal = new DatabaseManager();
+            var user = new User { Account = "KevinTesting01", FirstName = "Kevin", LastName = "Park", Id = 20 };
             var parameters = new List<IDbDataParameter>();
-            parameters.Add(dbManager.CreateParameter("@Account", "Kevin1", DbType.String));
-            parameters.Add(dbManager.CreateParameter("@FirstName", "hyunbin", DbType.String));
-            parameters.Add(dbManager.CreateParameter("@LastName", "Park", DbType.String));
+            parameters.Add(dal.CreateParameter("@FirstName", user.FirstName, DbType.String));
+            parameters.Add(dal.CreateParameter("@LastName", user.LastName, DbType.String));
+            parameters.Add(dal.CreateParameter("@Account", user.Account, DbType.String));
 
-            //using (DatabaseManager dbManager = new DatabaseManager())
-            //{
-            //    //dbManager.CreateCommand("SP_InsertUser", CommandType.StoredProcedure, conn);
 
-            //    var parameters = new List<IDbDataParameter>();
-            //    parameters.Add(dbManager.CreateParameter("@Account", "Kevin1", DbType.String));
-            //    parameters.Add(dbManager.CreateParameter("@FirstName", "hyunbin", DbType.String));
-            //    parameters.Add(dbManager.CreateParameter("@LastName", "Park", DbType.String));
-            //    dbManager.Insert("SP_InsertUser", CommandType.StoredProcedure, parameters.ToArray());
-            //}
         }
 
 
+        [Test]
+        public void SPInsertUser()
+        {
+            using (DatabaseManager dbManager = new DatabaseManager())
+            {
+                var parameters = new List<IDbDataParameter>();
+                parameters.Add(dbManager.CreateParameter("@Account", "Kevin1", DbType.String));
+                parameters.Add(dbManager.CreateParameter("@FirstName", "hyunbin", DbType.String));
+                parameters.Add(dbManager.CreateParameter("@LastName", "Park", DbType.String));
+                dbManager.Insert("SP_InsertUser", CommandType.StoredProcedure, parameters.ToArray());
+            }
+        }
         // Connecting to the Stored procedure.
         [Test]
         public void CallExecuteNonQueryFor_SP_InsertTest()
